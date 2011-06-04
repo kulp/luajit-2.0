@@ -705,6 +705,27 @@ LJLIB_CF(ffi_load)
   return 1;
 }
 
+LJLIB_CF(ffi_fields)
+{
+  CTState *cts = ctype_cts(L);
+  CTypeID id = ffi_checkctype(L, cts);
+  CType *ct = lj_ctype_rawref(cts, id);
+  if (ctype_isstruct(ct->info) && ct->size != CTSIZE_INVALID) {
+    int i=0;
+    lua_createtable(L,0,0);
+    while (ct->sib) {
+      ct = ctype_get(cts, ct->sib);
+	  if (ctype_isptr(ct->info)) ct = ctype_rawchild(cts, ct); 
+      setstrV(L, L->top++, gcrefp(ct->name, GCstr));
+      lua_rawseti(L, -2, ++i);
+    }
+    return 1;
+  } else {
+    lj_err_argtype(L, 1, "struct type");
+  }
+  return 0;
+}
+
 LJLIB_PUSH(top-4) LJLIB_SET(C)
 LJLIB_PUSH(top-3) LJLIB_SET(os)
 LJLIB_PUSH(top-2) LJLIB_SET(arch)
