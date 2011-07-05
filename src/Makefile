@@ -34,7 +34,8 @@ CC= gcc
 # to slow down the C part by not omitting it. Debugging, tracebacks and
 # unwinding are not affected -- the assembler part has frame unwind
 # information and GCC emits it where needed (x64) or with -g (see CCDEBUG).
-CCOPT= -O2 -fomit-frame-pointer
+#CCOPT= -O2 -fomit-frame-pointer
+CCOPT= -O1 -fomit-frame-pointer
 # Use this if you want to generate a smaller binary (but it's slower):
 #CCOPT= -Os -fomit-frame-pointer
 # Note: it's no longer recommended to use -O3 with GCC 4.x.
@@ -56,7 +57,7 @@ CCOPT_PPCSPE=
 #
 CCDEBUG=
 # Uncomment the next line to generate debug information:
-#CCDEBUG= -g
+CCDEBUG= -g
 #
 CCWARN= -Wall
 # Uncomment the next line to enable more warnings:
@@ -134,20 +135,20 @@ XCFLAGS=
 #
 # This define is required to run LuaJIT under Valgrind. The Valgrind
 # header files must be installed. You should enable debug information, too.
-#XCFLAGS+= -DLUAJIT_USE_VALGRIND
+XCFLAGS+= -DLUAJIT_USE_VALGRIND
 #
 # This is the client for the GDB JIT API. GDB 7.0 or higher is required
 # to make use of it. See lj_gdbjit.c for details. Enabling this causes
 # a non-negligible overhead, even when not running under GDB.
-#XCFLAGS+= -DLUAJIT_USE_GDBJIT
+XCFLAGS+= -DLUAJIT_USE_GDBJIT
 #
 # Turn on assertions for the Lua/C API to debug problems with lua_* calls.
 # This is rather slow -- use only while developing C libraries/embeddings.
-#XCFLAGS+= -DLUA_USE_APICHECK
+XCFLAGS+= -DLUA_USE_APICHECK
 #
 # Turn on assertions for the whole LuaJIT VM. This significantly slows down
 # everything. Use only if you suspect a problem with LuaJIT itself.
-#XCFLAGS+= -DLUA_USE_ASSERT
+XCFLAGS+= -DLUA_USE_ASSERT
 #
 ##############################################################################
 # You probably don't need to change anything below this line!
