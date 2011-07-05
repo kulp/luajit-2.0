@@ -91,7 +91,7 @@ static int32_t ffi_checkint(lua_State *L, int narg)
   if (o >= L->top)
     lj_err_arg(L, narg, LJ_ERR_NOVAL);
   lj_cconv_ct_tv(cts, ctype_get(cts, CTID_INT32), (uint8_t *)&i, o,
-		 CCF_ARG(narg));
+         CCF_ARG(narg));
   return i;
 }
 
@@ -118,15 +118,15 @@ static int ffi_index_meta(lua_State *L, CTState *cts, CType *ct, MMS mm)
     if (mm == MM_index) {
       cTValue *o = lj_meta_tget(L, tv, base+1);
       if (o) {
-	if (tvisnil(o)) goto err_index;
-	copyTV(L, L->top-1, o);
-	return 1;
+    if (tvisnil(o)) goto err_index;
+    copyTV(L, L->top-1, o);
+    return 1;
       }
     } else {
       TValue *o = lj_meta_tset(L, tv, base+1);
       if (o) {
-	copyTV(L, o, base+2);
-	return 0;
+    copyTV(L, o, base+2);
+    return 0;
       }
     }
     tv = L->top-1;
@@ -134,7 +134,7 @@ static int ffi_index_meta(lua_State *L, CTState *cts, CType *ct, MMS mm)
   return lj_meta_tailcall(L, tv);
 }
 
-LJLIB_CF(ffi_meta___index)	LJLIB_REC(cdata_index 0)
+LJLIB_CF(ffi_meta___index)  LJLIB_REC(cdata_index 0)
 {
   CTState *cts = ctype_cts(L);
   CTInfo qual = 0;
@@ -151,7 +151,7 @@ LJLIB_CF(ffi_meta___index)	LJLIB_REC(cdata_index 0)
   return 1;
 }
 
-LJLIB_CF(ffi_meta___newindex)	LJLIB_REC(cdata_index 1)
+LJLIB_CF(ffi_meta___newindex)   LJLIB_REC(cdata_index 1)
 {
   CTState *cts = ctype_cts(L);
   CTInfo qual = 0;
@@ -178,27 +178,27 @@ static int ffi_arith(lua_State *L)
 }
 
 /* The following functions must be in contiguous ORDER MM. */
-LJLIB_CF(ffi_meta___eq)		LJLIB_REC(cdata_arith MM_eq)
+LJLIB_CF(ffi_meta___eq)     LJLIB_REC(cdata_arith MM_eq)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___len)	LJLIB_REC(cdata_arith MM_len)
+LJLIB_CF(ffi_meta___len)    LJLIB_REC(cdata_arith MM_len)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___lt)		LJLIB_REC(cdata_arith MM_lt)
+LJLIB_CF(ffi_meta___lt)     LJLIB_REC(cdata_arith MM_lt)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___le)		LJLIB_REC(cdata_arith MM_le)
+LJLIB_CF(ffi_meta___le)     LJLIB_REC(cdata_arith MM_le)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___concat)	LJLIB_REC(cdata_arith MM_concat)
+LJLIB_CF(ffi_meta___concat) LJLIB_REC(cdata_arith MM_concat)
 {
   return ffi_arith(L);
 }
@@ -216,7 +216,7 @@ static int ffi_call_meta(lua_State *L, CTypeID id)
 /* Forward declaration. */
 static int lj_cf_ffi_new(lua_State *L);
 
-LJLIB_CF(ffi_meta___call)	LJLIB_REC(cdata_call)
+LJLIB_CF(ffi_meta___call)   LJLIB_REC(cdata_call)
 {
   GCcdata *cd = ffi_checkcdata(L, 1);
   int ret;
@@ -227,37 +227,37 @@ LJLIB_CF(ffi_meta___call)	LJLIB_REC(cdata_call)
   return ret;
 }
 
-LJLIB_CF(ffi_meta___add)	LJLIB_REC(cdata_arith MM_add)
+LJLIB_CF(ffi_meta___add)    LJLIB_REC(cdata_arith MM_add)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___sub)	LJLIB_REC(cdata_arith MM_sub)
+LJLIB_CF(ffi_meta___sub)    LJLIB_REC(cdata_arith MM_sub)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___mul)	LJLIB_REC(cdata_arith MM_mul)
+LJLIB_CF(ffi_meta___mul)    LJLIB_REC(cdata_arith MM_mul)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___div)	LJLIB_REC(cdata_arith MM_div)
+LJLIB_CF(ffi_meta___div)    LJLIB_REC(cdata_arith MM_div)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___mod)	LJLIB_REC(cdata_arith MM_mod)
+LJLIB_CF(ffi_meta___mod)    LJLIB_REC(cdata_arith MM_mod)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___pow)	LJLIB_REC(cdata_arith MM_pow)
+LJLIB_CF(ffi_meta___pow)    LJLIB_REC(cdata_arith MM_pow)
 {
   return ffi_arith(L);
 }
 
-LJLIB_CF(ffi_meta___unm)	LJLIB_REC(cdata_arith MM_unm)
+LJLIB_CF(ffi_meta___unm)    LJLIB_REC(cdata_arith MM_unm)
 {
   return ffi_arith(L);
 }
@@ -278,14 +278,14 @@ LJLIB_CF(ffi_meta___tostring)
       goto checkgc;
     } else if (ct->size == 8 && ctype_isinteger(ct->info)) {
       setstrV(L, L->top-1, lj_ctype_repr_int64(L, *(uint64_t *)cdataptr(cd),
-					       (ct->info & CTF_UNSIGNED)));
+                           (ct->info & CTF_UNSIGNED)));
       goto checkgc;
     } else if (ctype_isstruct(ct->info) || ctype_isvector(ct->info)) {
       /* Handle ctype __tostring metamethod. */
       CTState *cts = ctype_cts(L);
       cTValue *tv = lj_ctype_meta(cts, id, MM_tostring);
       if (tv)
-	return lj_meta_tailcall(L, tv);
+    return lj_meta_tailcall(L, tv);
     }
   }
   lj_str_pushf(L, msg, strdata(lj_ctype_repr(L, id, NULL)), cdataptr(cd));
@@ -315,7 +315,7 @@ static TValue *ffi_clib_index(lua_State *L)
   return lj_clib_index(L, cl, strV(o+1));
 }
 
-LJLIB_CF(ffi_clib___index)	LJLIB_REC(clib_index)
+LJLIB_CF(ffi_clib___index)  LJLIB_REC(clib_index)
 {
   TValue *tv = ffi_clib_index(L);
   if (tviscdata(tv)) {
@@ -326,7 +326,7 @@ LJLIB_CF(ffi_clib___index)	LJLIB_REC(clib_index)
       CTypeID sid = ctype_cid(s->info);
       void *sp = *(void **)cdataptr(cd);
       if (lj_cconv_tv_ct(cts, ctype_raw(cts, sid), sid, L->top-1, sp))
-	lj_gc_check(L);
+    lj_gc_check(L);
       return 1;
     }
   }
@@ -345,13 +345,13 @@ LJLIB_CF(ffi_clib___newindex)
     if (ctype_isextern(d->info)) {
       CTInfo qual = 0;
       for (;;) {  /* Skip attributes and collect qualifiers. */
-	d = ctype_child(cts, d);
-	if (!ctype_isattrib(d->info)) break;
-	if (ctype_attrib(d->info) == CTA_QUAL) qual |= d->size;
+    d = ctype_child(cts, d);
+    if (!ctype_isattrib(d->info)) break;
+    if (ctype_attrib(d->info) == CTA_QUAL) qual |= d->size;
       }
       if (!((d->info|qual) & CTF_CONST)) {
-	lj_cconv_ct_tv(cts, d, *(void **)cdataptr(cd), o, 0);
-	return 0;
+    lj_cconv_ct_tv(cts, d, *(void **)cdataptr(cd), o, 0);
+    return 0;
       }
     }
   }
@@ -389,7 +389,7 @@ LJLIB_CF(ffi_cdef)
   return 0;
 }
 
-LJLIB_CF(ffi_new)	LJLIB_REC(.)
+LJLIB_CF(ffi_new)   LJLIB_REC(.)
 {
   CTState *cts = ctype_cts(L);
   CTypeID id = ffi_checkctype(L, cts);
@@ -410,17 +410,17 @@ LJLIB_CF(ffi_new)	LJLIB_REC(.)
     cd = lj_cdata_newv(cts, id, sz, ctype_align(info));
   setcdataV(L, o-1, cd);  /* Anchor the uninitialized cdata. */
   lj_cconv_ct_init(cts, ct, sz, cdataptr(cd),
-		   o, (MSize)(L->top - o));  /* Initialize cdata. */
+           o, (MSize)(L->top - o));  /* Initialize cdata. */
   if (ctype_isstruct(ct->info)) {
     /* Handle ctype __gc metamethod. Use the fast lookup here. */
     cTValue *tv = lj_tab_getint(cts->metatype, (int32_t)id);
     if (tv && tvistab(tv) && (tv = lj_meta_fast(L, tabV(tv), MM_gc))) {
       GCtab *t = cts->finalizer;
       if (gcref(t->metatable)) {
-	/* Add to finalizer table, if still enabled. */
-	copyTV(L, lj_tab_set(L, t, o-1), tv);
-	lj_gc_anybarriert(L, t);
-	cd->marked |= LJ_GC_CDATA_FIN;
+    /* Add to finalizer table, if still enabled. */
+    copyTV(L, lj_tab_set(L, t, o-1), tv);
+    lj_gc_anybarriert(L, t);
+    cd->marked |= LJ_GC_CDATA_FIN;
       }
     }
   }
@@ -429,7 +429,7 @@ LJLIB_CF(ffi_new)	LJLIB_REC(.)
   return 1;
 }
 
-LJLIB_CF(ffi_cast)	LJLIB_REC(ffi_new)
+LJLIB_CF(ffi_cast)  LJLIB_REC(ffi_new)
 {
   CTState *cts = ctype_cts(L);
   CTypeID id = ffi_checkctype(L, cts);
@@ -458,7 +458,7 @@ LJLIB_CF(ffi_typeof)
   return 1;
 }
 
-LJLIB_CF(ffi_istype)	LJLIB_REC(ffi_istype)
+LJLIB_CF(ffi_istype)    LJLIB_REC(ffi_istype)
 {
   CTState *cts = ctype_cts(L);
   CTypeID id1 = ffi_checkctype(L, cts);
@@ -467,19 +467,19 @@ LJLIB_CF(ffi_istype)	LJLIB_REC(ffi_istype)
   if (tviscdata(o)) {
     GCcdata *cd = cdataV(o);
     CTypeID id2 = cd->typeid == CTID_CTYPEID ? *(CTypeID *)cdataptr(cd) :
-					       cd->typeid;
+                           cd->typeid;
     CType *ct1 = lj_ctype_rawref(cts, id1);
     CType *ct2 = lj_ctype_rawref(cts, id2);
     if (ct1 == ct2) {
       b = 1;
     } else if (ctype_type(ct1->info) == ctype_type(ct2->info) &&
-	       ct1->size == ct2->size) {
+           ct1->size == ct2->size) {
       if (ctype_ispointer(ct1->info))
-	b = lj_cconv_compatptr(cts, ct1, ct2, CCF_IGNQUAL);
+    b = lj_cconv_compatptr(cts, ct1, ct2, CCF_IGNQUAL);
       else if (ctype_isnum(ct1->info) || ctype_isvoid(ct1->info))
-	b = (((ct1->info ^ ct2->info) & ~CTF_QUAL) == 0);
+    b = (((ct1->info ^ ct2->info) & ~CTF_QUAL) == 0);
     } else if (ctype_isstruct(ct1->info) && ctype_isptr(ct2->info) &&
-	       ct1 == ctype_rawchild(cts, ct2)) {
+           ct1 == ctype_rawchild(cts, ct2)) {
       b = 1;
     }
   }
@@ -532,11 +532,11 @@ LJLIB_CF(ffi_offsetof)
     if (fct) {
       setintV(L->top-1, ofs);
       if (ctype_isfield(fct->info)) {
-	return 1;
+    return 1;
       } else if (ctype_isbitfield(fct->info)) {
-	setintV(L->top++, ctype_bitpos(fct->info));
-	setintV(L->top++, ctype_bitbsz(fct->info));
-	return 3;
+    setintV(L->top++, ctype_bitpos(fct->info));
+    setintV(L->top++, ctype_bitbsz(fct->info));
+    return 3;
       }
     }
   }
@@ -552,7 +552,7 @@ LJLIB_CF(ffi_errno)
   return 1;
 }
 
-LJLIB_CF(ffi_string)	LJLIB_REC(.)
+LJLIB_CF(ffi_string)    LJLIB_REC(.)
 {
   CTState *cts = ctype_cts(L);
   TValue *o = lj_lib_checkany(L, 1);
@@ -561,10 +561,10 @@ LJLIB_CF(ffi_string)	LJLIB_REC(.)
   if (o+1 < L->top) {
     len = (size_t)ffi_checkint(L, 2);
     lj_cconv_ct_tv(cts, ctype_get(cts, CTID_P_CVOID), (uint8_t *)&p, o,
-		   CCF_ARG(1));
+           CCF_ARG(1));
   } else {
     lj_cconv_ct_tv(cts, ctype_get(cts, CTID_P_CCHAR), (uint8_t *)&p, o,
-		   CCF_ARG(1));
+           CCF_ARG(1));
     len = strlen(p);
   }
   L->top = o+1;  /* Make sure this is the last item on the stack. */
@@ -573,7 +573,7 @@ LJLIB_CF(ffi_string)	LJLIB_REC(.)
   return 1;
 }
 
-LJLIB_CF(ffi_copy)	LJLIB_REC(.)
+LJLIB_CF(ffi_copy)  LJLIB_REC(.)
 {
   void *dp = ffi_checkptr(L, 1, CTID_P_VOID);
   void *sp = ffi_checkptr(L, 2, CTID_P_CVOID);
@@ -587,7 +587,7 @@ LJLIB_CF(ffi_copy)	LJLIB_REC(.)
   return 0;
 }
 
-LJLIB_CF(ffi_fill)	LJLIB_REC(.)
+LJLIB_CF(ffi_fill)  LJLIB_REC(.)
 {
   void *dp = ffi_checkptr(L, 1, CTID_P_VOID);
   CTSize len = (CTSize)ffi_checkint(L, 2);
@@ -597,10 +597,10 @@ LJLIB_CF(ffi_fill)	LJLIB_REC(.)
   return 0;
 }
 
-#define H_(le, be)	LJ_ENDIAN_SELECT(0x##le, 0x##be)
+#define H_(le, be)  LJ_ENDIAN_SELECT(0x##le, 0x##be)
 
 /* Test ABI string. */
-LJLIB_CF(ffi_abi)	LJLIB_REC(.)
+LJLIB_CF(ffi_abi)   LJLIB_REC(.)
 {
   GCstr *s = lj_lib_checkstr(L, 1);
   int b = 0;
@@ -647,7 +647,7 @@ LJLIB_CF(ffi_metatype)
   TValue *tv;
   GCcdata *cd;
   if (!(ctype_isstruct(ct->info) || ctype_iscomplex(ct->info) ||
-	ctype_isvector(ct->info)))
+    ctype_isvector(ct->info)))
     lj_err_arg(L, 1, LJ_ERR_FFI_INVTYPE);
   tv = lj_tab_setint(L, t, (int32_t)id);
   if (!tvisnil(tv))
@@ -671,7 +671,7 @@ LJLIB_CF(ffi_gc)
   GCtab *t = cts->finalizer;
   CType *ct = ctype_raw(cts, cd->typeid);
   if (!(ctype_isptr(ct->info) || ctype_isstruct(ct->info) ||
-	ctype_isrefarray(ct->info)))
+    ctype_isrefarray(ct->info)))
     lj_err_arg(L, 1, LJ_ERR_FFI_INVTYPE);
   if (gcref(t->metatable)) {  /* Update finalizer table, if still enabled. */
     copyTV(L, lj_tab_set(L, t, L->base), fin);
@@ -700,20 +700,35 @@ LJLIB_CF(ffi_fields)
   CTState *cts = ctype_cts(L);
   CTypeID id = ffi_checkctype(L, cts);
   CType *ct = lj_ctype_rawref(cts, id);
+  while (ctype_isptr(ct->info)) ct = ctype_rawchild(cts, ct);
   if (ctype_isstruct(ct->info) && ct->size != CTSIZE_INVALID) {
     int i=0;
     lua_createtable(L,0,0);
     while (ct->sib) {
       ct = ctype_get(cts, ct->sib);
-	  if (ctype_isptr(ct->info)) ct = ctype_rawchild(cts, ct); 
+      while (ctype_isptr(ct->info)) ct = ctype_rawchild(cts, ct);
       setstrV(L, L->top++, gcrefp(ct->name, GCstr));
       lua_rawseti(L, -2, ++i);
     }
     return 1;
   } else {
-    lj_err_argtype(L, 1, "struct type");
+    lj_err_argtype(L, 1, "ctype or cdata");
   }
   return 0;
+}
+
+LJLIB_CF(ffi_deref)
+{
+  TValue *o = L->base;
+  if (!(o < L->top)) {
+  err_argtype:
+    lj_err_argtype(L, 1, "C type");
+  }
+  GCcdata *cd;
+  if (!tviscdata(o)) goto err_argtype;
+  cd = cdataV(o);
+  lua_pushlightuserdata(L,*(void**)cdataptr(cd));
+  return 1;
 }
 
 LJLIB_PUSH(top-4) LJLIB_SET(C)
@@ -732,7 +747,7 @@ static GCtab *ffi_finalizer(lua_State *L)
   settabV(L, L->top++, t);
   setgcref(t->metatable, obj2gco(t));
   setstrV(L, lj_tab_setstr(L, t, lj_str_newlit(L, "__mode")),
-	  lj_str_newlit(L, "K"));
+      lj_str_newlit(L, "K"));
   t->nomm = (uint8_t)(~(1u<<MM_mode));
   return t;
 }
