@@ -1,0 +1,3 @@
+include Makefile
+lj_err.o lj_ctype.o lib_ffi.o: CFLAGS += -U__ELF__ -U__MACH__
+
