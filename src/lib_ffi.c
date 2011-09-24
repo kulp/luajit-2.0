@@ -283,19 +283,12 @@ LJLIB_CF(ffi_meta___tostring)
       setstrV(L, L->top-1, lj_ctype_repr_int64(L, *(uint64_t *)cdataptr(cd),
                            (ct->info & CTF_UNSIGNED)));
       goto checkgc;
-    } else if (ctype_isfunc(ct->info)) {
-      p = *(void **)p;
-    } else {
-      if (ctype_isptr(ct->info)) {
-	p = cdata_getptr(p, ct->size);
-	ct = ctype_rawchild(cts, ct);
-      }
-      if (ctype_isstruct(ct->info) || ctype_isvector(ct->info)) {
-	/* Handle ctype __tostring metamethod. */
-	cTValue *tv = lj_ctype_meta(cts, ctype_typeid(cts, ct), MM_tostring);
-	if (tv)
-	  return lj_meta_tailcall(L, tv);
-      }
+    } else if (ctype_isstruct(ct->info) || ctype_isvector(ct->info)) {
+      /* Handle ctype __tostring metamethod. */
+      CTState *cts = ctype_cts(L);
+      cTValue *tv = lj_ctype_meta(cts, id, MM_tostring);
+      if (tv)
+    return lj_meta_tailcall(L, tv);
     }
   }
   lj_str_pushf(L, msg, strdata(lj_ctype_repr(L, id, NULL)), p);
